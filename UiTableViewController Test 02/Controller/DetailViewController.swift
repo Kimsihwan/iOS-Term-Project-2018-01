@@ -62,24 +62,52 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let indexPath = tableView.indexPathForSelectedRow
         
         print(indexPath!)
         
         if(indexPath! == [0, 1]){
-        
-        let currentCell = tableView.cellForRow(at: indexPath!)! as UITableViewCell
-        
-        print(currentCell)
-        
-        let currentItem = currentCell.textLabel!.text
-        
-        let alertController = UIAlertController(title: "Simplified iOS", message: "You Selected " + currentItem!, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Close Alert", style: .default, handler: nil)
-        alertController.addAction(defaultAction)
+            
+            let currentCell = tableView.cellForRow(at: indexPath!)! as UITableViewCell
+            
+            print(currentCell)
+            
+            let currentItem = currentCell.textLabel!.text
+            
+            
+            let alertController = UIAlertController(title: "전화거시겠습니까?", message: currentItem!, preferredStyle: .alert)
+            
+            
+            let okAction = UIAlertAction(title: "전화걸기", style: .default, handler : {(myaction: UIAlertAction) -> Void in
     
-        present(alertController, animated: true, completion: nil)
+                let phoneCallURL = URL(string: "tel://\(self.tel1)")!
+                
+                
+                let application:UIApplication = UIApplication.shared
+                
+                
+                if (application.canOpenURL(phoneCallURL)) {
+                    
+                    application.open(phoneCallURL, options: [:], completionHandler: nil)
+                   
+                }
+                
+            })
+            
+            
+            
+            let defaultAction = UIAlertAction(title: "취소", style: .default, handler: nil)
+            
+            
+            alertController.addAction(okAction)
+            alertController.addAction(defaultAction)
+            
+            present(alertController, animated: true, completion: nil)
+            
         }
+        
+        
         
     }
 
